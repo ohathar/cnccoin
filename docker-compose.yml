@@ -1,0 +1,17 @@
+version: '3'
+
+networks:
+  build-net:
+    name: build-net
+
+services:
+  cnccoin-builder:
+    build: .
+    restart: unless-stopped
+    networks:
+      - build-net
+    volumes:
+      - ./cnccoin:/cnccoin
+    ports:
+      - "9333:9333"
+      - "9332:9332"
