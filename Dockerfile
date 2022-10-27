@@ -17,8 +17,8 @@ WORKDIR /cnccoin
 
 #RUN make clean
 RUN ./autogen.sh
-RUN ./configure
-RUN make
+RUN ./configure --disable-tests
+RUN make 
 RUN make install
 
 #CMD ["tail", "-F", "/dev/null"]
