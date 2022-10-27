@@ -14,14 +14,6 @@ RUN apt-get install -y libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5
 COPY ./cnccoin /cnccoin
 WORKDIR /cnccoin
 
-RUN find ./ -type f -readable -writable -exec sed -i "s/Litecoin/CNCcoin/g" {} \; && \
-    find ./ -type f -readable -writable -exec sed -i "s/LiteCoin/CNCCoin/g" {} \; && \
-    find ./ -type f -readable -writable -exec sed -i "s/LTC/CNC/g" {} \; && \
-    find ./ -type f -readable -writable -exec sed -i "s/litecoin/cnccoin/g" {} \; && \
-    find ./ -type f -readable -writable -exec sed -i "s/litecoind/cnccoind/g" {} \; && \
-    find ./ -type f -readable -writable -exec sed -i "s/lites/beacons/g" {} \; && \
-    find ./ -type f -readable -writable -exec sed -i "s/photons/callbacks/g" {} \;
-
 
 #RUN make clean
 RUN ./autogen.sh
