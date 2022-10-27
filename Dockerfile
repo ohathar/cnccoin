@@ -21,6 +21,9 @@ RUN ./configure --disable-tests
 RUN make 
 RUN make install
 
+RUN mkdir /root/.cnccoin
+COPY cnccoin.conf /root/.cnccoin/cnccoin.conf
+
 #CMD ["tail", "-F", "/dev/null"]
 
 CMD ["cnccoind", "--printtoconsole"]
