@@ -1,0 +1,34 @@
+FROM ubuntu:16.04
+#shared libraries and dependencies
+RUN apt update && \
+    apt-get install -y build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils && \
+    apt-get install -y libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev
+#BerkleyDB for wallet support
+RUN apt-get install -y software-properties-common && \
+    add-apt-repository ppa:bitcoin/bitcoin && \
+    apt-get update && \
+    apt-get install -y libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libzmq3-dev
+
+RUN apt-get install -y libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev
+
+COPY ./cnccoin /cnccoin
+WORKDIR /cnccoin
+
+RUN find ./ -type f -readable -writable -exec sed -i "s/Litecoin/CNCcoin/g" {} \; && \
+    find ./ -type f -readable -writable -exec sed -i "s/LiteCoin/CNCCoin/g" {} \; && \
+    find ./ -type f -readable -writable -exec sed -i "s/LTC/CNC/g" {} \; && \
+    find ./ -type f -readable -writable -exec sed -i "s/litecoin/cnccoin/g" {} \; && \
+    find ./ -type f -readable -writable -exec sed -i "s/litecoind/cnccoind/g" {} \; && \
+    find ./ -type f -readable -writable -exec sed -i "s/lites/beacons/g" {} \; && \
+    find ./ -type f -readable -writable -exec sed -i "s/photons/callbacks/g" {} \;
+
+
+#RUN make clean
+RUN ./autogen.sh
+RUN ./configure
+RUN make
+RUN make install
+
+#CMD ["tail", "-F", "/dev/null"]
+
+CMD ["cnccoind", "--printtoconsole"]
